@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SafeFall – détection de chute</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='safefall.css') }}">
+</head>
+<body>
+<header>
+<h1>SafeFall</h1>
+<p>Détecter la chute avant que le silence ne devienne dangereux. Une caméra par chambre analyse le squelette du patient, sans stocker d’image.</p>
+</header>
+
+<div id="banner" role="alert"><div><b id="bt"></b><div id="bs"></div></div><button id="ack">Prendre en charge</button></div>
+
+<div class="grid">
+<aside>
+<h2>Chambres</h2>
+<div id="rooms"></div>
+<p class="note">Traitement local : aucune vidéo n’est envoyée ni stockée. Seuls les points du squelette sont analysés.</p>
+</aside>
+
+<section class="stage">
+<h2 id="stTitle">Chambre 1</h2>
+<canvas id="cam" width="640" height="360" aria-label="Vue de la caméra avec squelette détecté"></canvas>
+<div class="lab">Simuler un scénario</div>
+<div class="row" id="scn">
+<button class="b" data-s="walk" aria-pressed="true">Marche</button>
+<button class="b" data-s="sit" aria-pressed="false">S’asseoir</button>
+<button class="b" data-s="bend" aria-pressed="false">Se baisser vite</button>
+<button class="b f" data-s="fall" aria-pressed="false">Chute</button>
+</div>
+<div class="lab">Confidentialité</div>
+<div class="row" id="mode">
+<button class="b" id="camTog" aria-pressed="false">Désactiver la caméra (soins)</button>
+</div>
+<div class="lab">Seuil d’alerte : <b id="thv">80 %</b></div>
+<input id="thr" type="range" min="50" max="95" value="80" aria-label="Seuil d’alerte" style="width:100%;max-width:360px">
+<p class="note">L’IA attend une confirmation : la personne doit rester immobile au sol quelques secondes. Essayez « Se baisser vite » : le score monte mais aucune alerte ne part, car la personne se relève.</p>
+</section>
+
+<aside>
+<h2>Probabilité de chute</h2>
+<div class="big"><span id="pv">0</span><small> %</small></div>
+<div class="bar"><i id="pb" style="width:0"></i><u id="pt" style="left:80%"></u></div>
+<canvas id="spark" width="300" height="60" aria-label="Évolution de la probabilité"></canvas>
+<dl>
+<dt>Angle du tronc</dt><dd id="m1">–</dd>
+<dt>Descente de la tête</dt><dd id="m2">–</dd>
+<dt>Hauteur de la tête</dt><dd id="m3">–</dd>
+<dt>Confirmation au sol</dt><dd id="m4">–</dd>
+<dt>Score de mouvement</dt><dd id="m5">–</dd>
+<dt>Immobile au sol</dt><dd id="m7">–</dd>
+</dl>
+<h2 style="margin-top:18px">Journal</h2>
+<ul id="log"><li>Système prêt. Aucune alerte.</li></ul>
+</aside>
+</div>
+
+<<script src="{{ url_for('static', filename='safefall.js') }}"></script>
+</body>
+</html>
